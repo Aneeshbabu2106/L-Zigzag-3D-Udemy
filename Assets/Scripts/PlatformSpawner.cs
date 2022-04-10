@@ -3,9 +3,11 @@ using UnityEngine;
 public class PlatformSpawner : MonoBehaviour
 {
     public GameObject platform;
+    public GameObject diamomd;
 
     Vector3 lastPos;
     float size;
+    int rand;
     public bool gameOver = false;
 
     void Start()
@@ -21,7 +23,8 @@ public class PlatformSpawner : MonoBehaviour
 
     void Update()
     {
-        if(gameOver)
+        
+        if (gameOver)
         {
             CancelInvoke("PlatformSpawn");
         }
@@ -30,7 +33,7 @@ public class PlatformSpawner : MonoBehaviour
 
     void PlatformSpawn()
     {
-        int rand = Random.Range(0, 6);
+        rand = Random.Range(0, 6);
         if (rand < 3)
         {
             spawnX();
@@ -46,6 +49,11 @@ public class PlatformSpawner : MonoBehaviour
         pos.x += size;
         lastPos = pos;
         Instantiate(platform, pos, Quaternion.identity);
+        if(rand < 1)
+        {
+            Instantiate(diamomd, new Vector3(pos.x,pos.y+ 1f,pos.z), diamomd.transform.rotation);
+        }
+        
     }
     void spawnZ()
     {
@@ -53,6 +61,10 @@ public class PlatformSpawner : MonoBehaviour
         pos.z += size;
         lastPos = pos;
         Instantiate(platform, pos, Quaternion.identity);
+        if (rand > 4)
+        {
+            Instantiate(diamomd, new Vector3(pos.x, pos.y + 1f, pos.z), diamomd.transform.rotation);
 
+        }
     }
 }
