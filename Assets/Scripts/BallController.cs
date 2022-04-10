@@ -3,6 +3,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     [SerializeField] private float speed;
+    public GameObject diamondParticle;
 
     private bool started = false;
     private bool gameOver = false;
@@ -52,7 +53,9 @@ public class BallController : MonoBehaviour
     {
         if(other.gameObject.tag == "Diamond")
         {
+            GameObject diaPart = Instantiate(diamondParticle, new Vector3(other.transform.position.x, other.transform.position.y + 0.5f, other.transform.position.z), diamondParticle.transform.rotation) as GameObject;
             Destroy(other.gameObject);
+            Destroy(diaPart,0.5f);
 
         }
     }
