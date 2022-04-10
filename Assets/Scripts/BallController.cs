@@ -22,6 +22,7 @@ public class BallController : MonoBehaviour
             {
                 rb.velocity = new Vector3(0,0,speed);
                 started = true;
+                GameManager.instance.StartGame();
             }
         }
         if (!Physics.Raycast(transform.position,Vector3.down,1f))
@@ -29,7 +30,7 @@ public class BallController : MonoBehaviour
             rb.velocity = new Vector3(0, -25, 0);
             gameOver = true;
             Camera.main.GetComponent<CameraFollow>().gameOver = true;
-
+            GameManager.instance.GameOver();
         }
             
         if (Input.GetMouseButtonDown(0) && !gameOver)

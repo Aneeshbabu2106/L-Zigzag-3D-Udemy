@@ -18,13 +18,17 @@ public class PlatformSpawner : MonoBehaviour
         {
             PlatformSpawn();
         }
-        InvokeRepeating("PlatformSpawn", 2f, 0.4f);
+    }
+
+    public void StartSpawn()
+    {
+        InvokeRepeating("PlatformSpawn", 0.1f, 0.3f);
     }
 
     void Update()
     {
         
-        if (gameOver)
+        if (GameManager.instance.gameOver)
         {
             CancelInvoke("PlatformSpawn");
         }
