@@ -3,6 +3,9 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     [SerializeField] private float speed;
+
+    private bool started = false;
+    private bool gameOver = false;
     Rigidbody rb;
 
     private void Awake()
@@ -12,35 +15,41 @@ public class BallController : MonoBehaviour
 
     void Start()
     {
-        rb.velocity = new Vector3(speed, 0, 0);
-        Debug.Log("fxspeed");
+        
     }
 
     void Update()
     {
-        SwitchDir();
-    
+        if (!started)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                rb.velocity = new Vector3(0,0,speed);
+                started = true;
+            }
+        }
+        if (!Physics.Raycast(transform.position,Vector3.down,1f))
+        {
+            rb.velocity = new Vector3(0, -25, 0);
+            gameOver = true;
+        }
+            
+        if (Input.GetMouseButtonDown(0) && !gameOver)
+        {
+            SwitchDir();
+        }
     }
 
     void SwitchDir()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (rb.velocity.x > 0 && rb.velocity.x > rb.velocity.z)
         {
-            if (rb.velocity.x > 0 && rb.velocity.x > rb.velocity.z)
-            {
-                Debug.Log(rb.velocity);
-                rb.velocity = new Vector3(0, 0, speed);
-                Debug.Log("xspeed");
-                
-            }
-            else if (rb.velocity.z > 0 && rb.velocity.x < rb.velocity.z)
-            {
-                Debug.Log(rb.velocity);
-                rb.velocity = new Vector3(speed, 0, 0);
-                Debug.Log("zspeed");
-                
-            }
-
+            rb.velocity = new Vector3(0, 0, speed);
         }
+        else if (rb.velocity.z > 0 && rb.velocity.x < rb.velocity.z)
+        {
+            rb.velocity = new Vector3(speed, 0, 0);
+        }
+
     }
 }
